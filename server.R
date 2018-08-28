@@ -1,10 +1,11 @@
 library(shiny); library(shinydashboard); library(shinythemes); library(stringr)
 library(DT); library(dplyr); library(magrittr); library(RMySQL); library(shinyjs) ; library("RDCOMClient")
 
-load("E:/Users/Matias Gutierrez/Early Fraud Detection/Codes/Version 1/data/enron_training.RData")
-email_txt_path <- "E:\\Users\\Matias Gutierrez\\Early Fraud Detection\\Codes\\Version 1"
+email_txt_path <- dirname(rstudioapi::getSourceEditorContext()$path)
 
-dictionary_2 <- read.csv2("E:\\Users\\Matias Gutierrez\\Early Fraud Detection\\Data\\Fraud Keyword Dictionary WIP.csv", header = FALSE,
+load(paste0(email_txt_path, "/data/enron_training.RData"))
+
+dictionary_2 <- read.csv2(paste0(email_txt_path, "/data/Fraud Keyword Dictionary WIP.csv"), header = FALSE,
                           stringsAsFactors = FALSE)
 
 email_feed <- all_check[,c("User", "From", "To", "Subject", "Date",
