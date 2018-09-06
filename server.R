@@ -38,6 +38,7 @@ colnames(dictionary_1) <- c('V1')
 dictionary <- rbind(dictionary_2, dictionary_1)
 dictionary <- as.character(dictionary$V1)
 
+sus_value <- 87
 
 #============================================================================================================
 #                                                 SERVER
@@ -86,7 +87,8 @@ server <- function(input, output) {
   
   observeEvent(input$email_feed_rows_selected, {
     showModal(modalDialog( size = "l",
-                           title = h3(p(strong("Email View"))),
+                           title = fluidRow(column(9, h3(p(strong("Email View")))),
+                                                    column(3, paste0("Suspucious index: ", sus_value, "%"))),
                            fluidRow(
                              column(5,
                                     fluidRow(
@@ -152,7 +154,7 @@ server <- function(input, output) {
                                       h5("\nTo: Compliance Manager"),
                                       br(),
                                       h5("Hello,"),
-                                      h5("\nWe've detected the following suspicious email activity. Please evaluate if any further action is required."),
+                                      h5("\nWe’ve detected the following suspicious email activity. Please evaluate if any further action is required."),
                                       br(),
                                       h5("Thank you."),
                                       h5("\nEarly Fraud Detection Team")),
@@ -192,7 +194,7 @@ server <- function(input, output) {
                               "\nWe've detected the following suspicious email activity. Please evaluate if any further action is required.",
                               "\nThank you.", 
                               "Early Fraud Detection Team", sep = "\n")
-    #"Hello,\nWe've detected the following suspicious email activity. Please evaluate if any further action is required.\n\nThank you.\nEarly Fraud Detection Team"
+    #"Hello,\nWe’ve detected the following suspicious email activity. Please evaluate if any further action is required.\n\nThank you.\nEarly Fraud Detection Team"
     outMail[["Attachments"]]$Add(email_txt_path %>% paste("email.txt", sep = "\\"))
     
     ## send it
