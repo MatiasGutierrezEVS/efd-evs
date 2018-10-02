@@ -1,4 +1,4 @@
-library(shiny); library(shinydashboard); library(shinythemes); library(stringr)
+library(shiny); library(shinydashboard); library(shinythemes); library(stringr) ; library("shinyWidgets")
 library(DT); library(dplyr); library(magrittr); library(RMySQL); library(shinyjs) ; library("RDCOMClient")
 
 email_txt_path <- dirname(rstudioapi::getSourceEditorContext()$path)
@@ -44,7 +44,7 @@ sus_value <- 87
 #                                                 SERVER
 #============================================================================================================
 
-server <- function(input, output) {
+server <- function(input, output, session) {
 
   output$email_feed<- DT::renderDataTable({ 
 
@@ -88,7 +88,7 @@ server <- function(input, output) {
   observeEvent(input$email_feed_rows_selected, {
     showModal(modalDialog( size = "l",
                            title = fluidRow(column(9, h3(p(strong("Email View")))),
-                                                    column(3, paste0("Suspucious index: ", sus_value, "%"))),
+                                                    column(3, paste0("Suspicious index: ", sus_value, "%"))),
                            fluidRow(
                              column(5,
                                     fluidRow(
@@ -141,6 +141,53 @@ server <- function(input, output) {
 
                            easyClose = TRUE
     ))})
+  #----------------------------------------------------------------------------------------------------------
+  # Follow button -----------------------------------------------------------------------------------------
+  #----------------------------------------------------------------------------------------------------------
+  observeEvent(input$Follow, {
+    
+      confirmSweetAlert(
+        session = session,
+        inputId = "myconfirmation",
+        type = "warning",
+        title = "Are you sure you want to follow this interaction?",
+        danger_mode = TRUE
+      )
+    
+  })
+  
+  observeEvent(input$myconfirmation, {
+    if (isTRUE(input$myconfirmation)) {
+      
+      #Add interaction to the Follow Table
+      
+    }
+  })
+  
+  #----------------------------------------------------------------------------------------------------------
+  # Unfollow button -----------------------------------------------------------------------------------------
+  #----------------------------------------------------------------------------------------------------------
+  observeEvent(input$Follow, {
+    
+    confirmSweetAlert(
+      session = session,
+      inputId = "myconfirmation",
+      type = "warning",
+      title = "Are you sure you want to un-follow this interaction?",
+      danger_mode = TRUE
+    )
+    
+  })
+  
+  observeEvent(input$myconfirmation, {
+    if (isTRUE(input$myconfirmation)) {
+      
+      #Add interaction to the Follow Table
+      
+    }
+  })
+  
+  
   #----------------------------------------------------------------------------------------------------------
   # Escalate button -----------------------------------------------------------------------------------------
   #----------------------------------------------------------------------------------------------------------
